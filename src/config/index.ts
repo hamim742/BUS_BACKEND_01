@@ -23,5 +23,12 @@ export default {
     email:process.env.EMAIL_SENDER_EMAIL,
     pass:process.env.EMAIL_SENDER_PASS
     
-  }
+  },
+  smtp:{
+    host:process.env.SMTP_HOST as string,
+    port:process.env.SMTP_PORT as string,
+    user:process.env.SMTP_USER  as string,
+    pass:process.env.SMTP_PASS as string,
+    service:process.env.SMTP_SERVICE
+  },
 };

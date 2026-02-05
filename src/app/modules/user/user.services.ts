@@ -3,8 +3,6 @@ import { prisma } from "../../lib/prisma";
 import httpStatus from "http-status";
 import bcrypt from "bcryptjs";
 import { generateOtp } from "../../utils/generateOtp";
-import crypto from "crypto";
-import { otpQueueEmail } from "../../bullMQ/init";
 interface UserPayload {
   name: string;
   email: string;
@@ -39,18 +37,6 @@ const registerUserIntoDB = async (payload: UserPayload) => {
 
     return newUser;
   });
-
-  // Queue OTP *after* successful commit
-  await otpQueueEmail.add(
-    "registrationOtp",
-    {
-      // name: "loginOtp",
-      userName: result.name,
-      email: payload.email,
-      otpCode: otp,
-      subject: "Your Verification OTP",
-    }
-  );
 
   return {
     message: "Verification OTP sent to your email. Please verify to activate account.",
