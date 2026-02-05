@@ -1,0 +1,57 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRoleEnum {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+model User {
+  id                            String             @id @default(uuid()) 
+  name                          String
+  email                         String             @unique
+  password                      String?
+  role                          UserRoleEnum       @default(USER)
+  status                        UserStatus         @default(ACTIVE)
+  otp                           String?
+  otpExpiry                     DateTime?
+  notification                  Boolean            @default(true)
+  fcmToken                      String?
+  birthday                      String?
+  age                           Int?
+  number                        String?
+  forgetPasswordToken           String?
+  forgetPasswordTokenExpires    DateTime?
+  isEmailVerified               Boolean            @default(true)
+  emailVerificationToken        String?
+  emailVerificationTokenExpires DateTime?
+  gender                        Gender             @default(MALE)
+  twoFactor                     Boolean?           @default(false)
+  twoFactorOTP                  String?
+  twoFactorOTPExpires           DateTime?
+
+  createdAt                     DateTime           @default(now())
+  updatedAt                     DateTime           @updatedAt
+
+  @@map("users")
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+}
