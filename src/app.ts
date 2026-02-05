@@ -3,6 +3,7 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import path from "path";
 import globalErrorHandler from "./app/middleware/globalErrorHandler";
 import httpStatus from 'http-status'
+import router from "./app/routes";
 
 const app: Application = express();
 app.use(
@@ -24,7 +25,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send('Bus ticket server is running.........');
 });
 
-// app.use("/api/v1", router);
+app.use("/api/v1", router);
 
 app.use(globalErrorHandler);
 
