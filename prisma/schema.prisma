@@ -43,11 +43,129 @@ model User {
   twoFactor                     Boolean?           @default(false)
   twoFactorOTP                  String?
   twoFactorOTPExpires           DateTime?
-
   createdAt                     DateTime           @default(now())
   updatedAt                     DateTime           @updatedAt
 
+  busSeats                      BusSeat[]          
   @@map("users")
+}
+
+model BusSeat {
+  id          String   @id @default(uuid())
+  seatNumber  String   @unique
+  isBooked    Boolean  @default(false)
+  bookedById  String?  
+  user        User?    @relation(fields: [bookedById], references: [id])
+  bus         Bus[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("bus_seats")
+}
+
+model Bus{
+  id String @id @default(uuid())
+  busNumber String @unique
+  busName String @unique
+  busSeatById String 
+  busSeat BusSeat @relation(fields: [busSeatById],references: [id])
+  Destination Destination[]
+   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@map("buses")
+}
+
+model Destination{
+  id String @id @default(uuid())
+  from District
+  To District
+  busId String
+  bus  Bus  @relation(fields: [busId],references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@map("destinations")
+}
+
+enum District {
+  // Dhaka Division
+  DHAKA
+  FARIDPUR
+  GAZIPUR
+  GOPALGANJ
+  KISHOREGANJ
+  MADARIPUR
+  MANIKGANJ
+  MUNSHIGANJ
+  NARAYANGANJ
+  NARSINGDI
+  RAJBARI
+  SHARIATPUR
+  TANGAIL
+
+  // Chattogram Division
+  BANDARBAN
+  BRAHMANBARIA
+  CHANDPUR
+  CHATTOGRAM
+  CUMILLA
+  COXSBazar
+  FENI
+  KHAGRACHHARI
+  LAKSHMIPUR
+  NOAKHALI
+  RANGAMATI
+
+  // Rajshahi Division
+  BOGURA
+  CHAPAINAWABGANJ
+  JOYPURHAT
+  NAOGAON
+  NATORE
+  PABNA
+  RAJSHAHI
+  SIRAJGANJ
+
+  // Khulna Division
+  BAGERHAT
+  CHUADANGA
+  JASHORE
+  JHENAIDAH
+  KHULNA
+  KUSHTIA
+  MAGURA
+  MEHERPUR
+  NARAIL
+  SATKHIRA
+
+  // Barishal Division
+  BARGUNA
+  BARISHAL
+  BHOLA
+  JHALOKATHI
+  PATUAKHALI
+  PIROJPUR
+
+  // Sylhet Division
+  HABIGANJ
+  MOULVIBAZAR
+  SUNAMGANJ
+  SYLHET
+
+  // Rangpur Division
+  DINAJPUR
+  GAIBANDHA
+  KURIGRAM
+  LALMONIRHAT
+  NILPHAMARI
+  PANCHAGARH
+  RANGPUR
+  THAKURGAON
+
+  // Mymensingh Division
+  JAMALPUR
+  MYMENSINGH
+  NETROKONA
+  SHERPUR
 }
 
 enum UserStatus {

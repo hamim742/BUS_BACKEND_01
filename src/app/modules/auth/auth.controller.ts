@@ -3,6 +3,7 @@ import catchAsyncFn from "../../utils/catchAsyncFn";
 import { authServices } from "./auth.services";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
+
 const verifyEmail=catchAsyncFn(async (req:Request,res:Response)=>{
     const {email,otp}=req.body
 const verification=await authServices.verifyEmail(email,otp);

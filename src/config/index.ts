@@ -29,6 +29,11 @@ export default {
     port:process.env.SMTP_PORT as string,
     user:process.env.SMTP_USER  as string,
     pass:process.env.SMTP_PASS as string,
-    service:process.env.SMTP_SERVICE
+    service:process.env.SMTP_SERVICE as string
   },
+  super_admin:{
+    email:process.env.SUPER_ADMIN_EMAIL as string,
+    password:process.env.SUPER_ADMIN_PASS as string,
+    salt:Number(process.env.SALT)
+  }
 };

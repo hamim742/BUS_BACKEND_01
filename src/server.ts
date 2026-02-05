@@ -1,6 +1,7 @@
 import { Server } from "http";
 import app from "./app";
 import config from "./config";
+import { seedSuperAdmin } from "./app/utils/seedAdmin";
 
 
 const port = config.port || 5001;
@@ -9,7 +10,7 @@ async function main() {
   // Express + HTTP server
   const httpServer: Server = app.listen(port, () => {
     console.log(`✅ Server is running on port ${port}`);
-    // seedSuperAdmin();
+    seedSuperAdmin();
   });
 
   // graceful shutdown

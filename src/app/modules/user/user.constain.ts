@@ -216,6 +216,7 @@ export const failedEmailVerificationHTML = (client_server: string) => {
 export enum UserRoleEnum {
   ADMIN = 'ADMIN',
   USER = 'USER',
+  SUPERADMIN = 'SUPER_ADMIN',
 }
 
 export enum UserStatus {

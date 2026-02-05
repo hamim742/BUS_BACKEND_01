@@ -53,9 +53,9 @@ if(!user){
     throw new AppError(httpStatus.NOT_FOUND,'User not found with the provided email!');
 }
 
-if(!user.isEmailVerified){
-    throw new AppError(httpStatus.UNAUTHORIZED,'Email not verified. Please verify your email before logging in.');
-}
+// if(!user.isEmailVerified){
+//     throw new AppError(httpStatus.UNAUTHORIZED,'Email not verified. Please verify your email before logging in.');
+// }
 
 if(!user.password){
     throw new AppError(httpStatus.UNAUTHORIZED,'User registered with social login. Please use the respective social login method.');
@@ -65,6 +65,15 @@ const isCorrectPassword=await bcrypt.compare(payload.password,user.password);
 if(!isCorrectPassword){
     throw new AppError(httpStatus.UNAUTHORIZED,'Incorrect password provided!');
 }
+
+const accessToken= await createJwtToken({
+    userId:user.id,
+    email:user.email,
+    role:user.role,
+    name:user.name
+},config.jwt.access_secret as Secret,config.jwt.access_expires_in as string)
+
+return accessToken
 }
 
 
